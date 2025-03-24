@@ -13,7 +13,7 @@ build:
   script:
     - export CMAKE_GENERATOR=Ninja  # [unix]
     - {{ PYTHON }} -m pip install . -vv --config-settings=cmake.verbose=true --config-settings=logging.level=DEBUG
-  number: 1
+  number: 2
   skip: True  # [py<39]
 
 requirements:
