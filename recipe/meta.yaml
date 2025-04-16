@@ -1,5 +1,5 @@
 {% set name = "multispline" %}
-{% set version = "0.8.3" %}
+{% set version = "0.8.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: https://github.com/znasipak/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 08fc81aa2e688f4ee05312dbf8343aac8b7f5f3b789e262b25d12b4c550d145b
+  sha256: 74d099b2ce3875eeff8831efda1535fdfa677dfb9c0ec5cd62231cda1bd9781b
 
 build:
   script:
     - export CMAKE_GENERATOR=Ninja  # [unix]
     - {{ PYTHON }} -m pip install . -vv --config-settings=cmake.verbose=true --config-settings=logging.level=DEBUG
-  number: 3
-  skip: True  # [py<39]
+  number: 0
+  skip: true  # [py<39]
 
 requirements:
   build:
