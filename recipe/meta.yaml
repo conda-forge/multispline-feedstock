@@ -40,7 +40,6 @@ requirements:
   run:
     - python
     - numpy
-    - __archspec 1=x86_64_v2  # [unix and x86_64]
 
 test:
   source_files:
