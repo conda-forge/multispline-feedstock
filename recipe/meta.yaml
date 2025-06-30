@@ -12,8 +12,9 @@ source:
 build:
   script:
     - export CMAKE_GENERATOR=Ninja  # [unix]
-    - {{ PYTHON }} -m pip install . -vv --config-settings=cmake.verbose=true --config-settings=logging.level=DEBUG
-  number: 0
+    - {{ PYTHON }} -m pip install . -vv -Ccmake.verbose=true -Clogging.level=DEBUG -Ccmake.define.MULTISPLINE_MARCH=x86-64-v2  # [unix and x86_64]
+    - {{ PYTHON }} -m pip install . -vv -Ccmake.verbose=true -Clogging.level=DEBUG  # [(not unix) or (not x86_64)]
+  number: 1
   skip: true  # [py<39]
 
 requirements:
@@ -39,6 +40,7 @@ requirements:
   run:
     - python
     - numpy
+    - __archspec 1=x86_64_v2  # [unix and x86_64]
 
 test:
   source_files:
