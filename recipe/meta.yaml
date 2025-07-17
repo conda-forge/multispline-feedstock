@@ -40,7 +40,6 @@ requirements:
     - scikit-build-core                   # [build_platform != target_platform]
     - cython                              # [build_platform != target_platform]
     - numpy                               # [build_platform != target_platform]
-    - libcxx-devel <19                    # [osx]
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
