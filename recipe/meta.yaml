@@ -2,6 +2,18 @@
 {% set version = "0.8.5" %}
 {% set build = 2 %}
 
+{% if microarch_level is undefined %}
+{% set microarch_level = 1 %}
+{% endif %}
+
+{% set PYTHON = "python" %}
+{% set PYTHON = "$PREFIX/bin/python" %}  # [linux]
+{% set PYTHON = "%PREFIX%\\python" %}  # [win]
+
+{% set build_with_microarch = build + 100 %}  # [microarch_level == 1]
+{% set build_with_microarch = build + 300 %}  # [microarch_level == 3]
+{% set build_with_microarch = build + 400 %}  # [microarch_level == 4]
+
 package:
   name: {{ name|lower }}
   version: {{ version }}
@@ -18,10 +30,7 @@ build:
       -Ccmake.verbose=true
       -Clogging.level=DEBUG
       -Ccmake.define.MULTISPLINE_MARCH=x86-64-v{{ microarch_level }}  # [unix and x86_64]
-  number: {{ build }}          # [not (unix and x86_64)]
-  number: {{ build + 100 }}    # [unix and x86_64 and microarch_level == 1]
-  number: {{ build + 300 }}    # [unix and x86_64 and microarch_level == 3]
-  number: {{ build + 400 }}    # [unix and x86_64 and microarch_level == 4]
+  number: {{ build_with_microarch }}
   skip: true  # [py<39]
 
 requirements:
@@ -56,13 +65,13 @@ test:
     - multispline/tests/test_bicubic.py
     - multispline/tests/test_tricubic.py
   imports:
-    - splinecy
-    - multispline.spline
+    - splinecy  # [microarch_level < 4]
+    - multispline.spline  # [microarch_level < 4]
   requires:
-    - pip
+    - pip  # [microarch_level < 4]
   commands:
-    - pip check
-    - python -c "import importlib.metadata; assert importlib.metadata.version('multispline') == '{{ version }}'"
+    - pip check  # [microarch_level < 4]
+    - python -c "import importlib.metadata; assert importlib.metadata.version('multispline') == '{{ version }}'"  # [microarch_level < 4]
     - python -m unittest multispline/tests/test_cubic.py  # [microarch_level < 4]
     - python -m unittest multispline/tests/test_bicubic.py  # [microarch_level < 4]
     - python -m unittest multispline/tests/test_tricubic.py  # [microarch_level < 4]
