@@ -1,5 +1,18 @@
 {% set name = "multispline" %}
 {% set version = "0.8.5" %}
+{% set build = 2 %}
+
+{% if microarch_level is undefined %}
+{% set microarch_level = 1 %}
+{% endif %}
+
+{% set PYTHON = "python" %}
+{% set PYTHON = "$PREFIX/bin/python" %}  # [linux]
+{% set PYTHON = "%PREFIX%\\python" %}  # [win]
+
+{% set build_with_microarch = build + 100 %}  # [microarch_level == 1]
+{% set build_with_microarch = build + 300 %}  # [microarch_level == 3]
+{% set build_with_microarch = build + 400 %}  # [microarch_level == 4]
 
 package:
   name: {{ name|lower }}
@@ -12,9 +25,12 @@ source:
 build:
   script:
     - export CMAKE_GENERATOR=Ninja  # [unix]
-    - {{ PYTHON }} -m pip install . -vv -Ccmake.verbose=true -Clogging.level=DEBUG -Ccmake.define.MULTISPLINE_MARCH=x86-64-v2  # [unix and x86_64]
-    - {{ PYTHON }} -m pip install . -vv -Ccmake.verbose=true -Clogging.level=DEBUG  # [(not unix) or (not x86_64)]
-  number: 1
+    - >
+      {{ PYTHON }} -m pip install . -vv 
+      -Ccmake.verbose=true
+      -Clogging.level=DEBUG
+      -Ccmake.define.MULTISPLINE_MARCH=x86-64-v{{ microarch_level }}  # [unix and x86_64]
+  number: {{ build_with_microarch }}
   skip: true  # [py<39]
 
 requirements:
@@ -24,13 +40,13 @@ requirements:
     - scikit-build-core                   # [build_platform != target_platform]
     - cython                              # [build_platform != target_platform]
     - numpy                               # [build_platform != target_platform]
-    - libcxx-devel <19                    # [osx]
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - ninja
     - cmake
     - make
+    - x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64 and microarch_level < 4]
   host:
     - python
     - pip
@@ -40,6 +56,7 @@ requirements:
   run:
     - python
     - numpy
+    - _x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64 and microarch_level == 4]
 
 test:
   source_files:
@@ -47,16 +64,16 @@ test:
     - multispline/tests/test_bicubic.py
     - multispline/tests/test_tricubic.py
   imports:
-    - splinecy
-    - multispline.spline
+    - splinecy  # [microarch_level < 4]
+    - multispline.spline  # [microarch_level < 4]
   requires:
-    - pip
+    - pip  # [microarch_level < 4]
   commands:
-    - pip check
-    - python -c "import importlib.metadata; assert importlib.metadata.version('multispline') == '{{ version }}'"
-    - python -m unittest multispline/tests/test_cubic.py
-    - python -m unittest multispline/tests/test_bicubic.py
-    - python -m unittest multispline/tests/test_tricubic.py
+    - pip check  # [microarch_level < 4]
+    - python -c "import importlib.metadata; assert importlib.metadata.version('multispline') == '{{ version }}'"  # [microarch_level < 4]
+    - python -m unittest multispline/tests/test_cubic.py  # [microarch_level < 4]
+    - python -m unittest multispline/tests/test_bicubic.py  # [microarch_level < 4]
+    - python -m unittest multispline/tests/test_tricubic.py  # [microarch_level < 4]
 
 about:
   home: https://github.com/znasipak/multispline
