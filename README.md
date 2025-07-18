@@ -15,7 +15,6 @@ A Python package for generating cubic splines in one, two, or three (hence, mult
 dimensions. The package supports a number of boundary conditions, but is restricted
 to interpolating data that is spaced on a uniform grid.
 
-
 Current build status
 ====================
 
