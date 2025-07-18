@@ -15,7 +15,6 @@ A Python package for generating cubic splines in one, two, or three (hence, mult
 dimensions. The package supports a number of boundary conditions, but is restricted
 to interpolating data that is spaced on a uniform grid.
 
-
 Current build status
 ====================
 
@@ -276,6 +275,41 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level3python3.9.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_microarch_level4python3.10.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python3.10.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_microarch_level4python3.11.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python3.11.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_microarch_level4python3.12.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python3.12.____cpython" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_microarch_level4python3.13.____cp313</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python3.13.____cp313" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_64_microarch_level4python3.9.____cpython</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25027&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/multispline-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_microarch_level4python3.9.____cpython" alt="variant">
                 </a>
               </td>
             </tr><tr>
