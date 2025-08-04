@@ -3,10 +3,14 @@ schema_version: 1
 context:
   name: multispline
   version: 0.8.5
-  build: 3
-  microarch_level: ${{ 1 if microarch_level is undefined else (microarch_level | int) }}
+  build: 4
+  microarch_level: ${{ 1 if microarch_level is undefined else microarch_level }}
   build_with_microarch: ${{ build + (microarch_level * 100) | int }}
-  microarch_option: ${{ "-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level if (unix and x86_64) else "" }}
+  microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level 
+                    if (microarch_level | int) > 1 
+                    else "-Ccmake.define.MULTISPLINE_MARCH=x86-64") 
+                         if (unix and x86_64)
+                         else ""}}
 
 package:
   name: ${{ name|lower }}
@@ -22,7 +26,11 @@ build:
   script:
     - if: unix
       then: export CMAKE_GENERATOR=Ninja
-    - ${{ PYTHON }} -m pip install . -vv  -Ccmake.verbose=true -Clogging.level=DEBUG ${{ microarch_option }}
+    - >-
+      ${{ PYTHON }} -m pip install . -vv 
+      -Ccmake.verbose=true
+      -Clogging.level=DEBUG
+      ${{ microarch_option }}
 
 requirements:
   build:
@@ -39,7 +47,7 @@ requirements:
     - ninja
     - cmake
     - make
-    - if: unix and x86_64 and (microarch_level <= 3)
+    - if: unix and x86_64 and microarch_level < 4
       then: x86_64-microarch-level ${{ microarch_level }}.*
   host:
     - python
@@ -50,7 +58,7 @@ requirements:
   run:
     - python
     - numpy
-    - if: unix and x86_64 and (microarch_level >= 4)
+    - if: unix and x86_64 and microarch_level == 4
       then: _x86_64-microarch-level >=${{ microarch_level }}
 
 tests:
