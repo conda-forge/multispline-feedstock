@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: multispline
-  version: 0.8.5
-  build: 6
+  version: 0.9.0
+  build: 0
   microarch_level: ${{ 1 if microarch_level is undefined else microarch_level | int }}
   build_with_microarch: ${{ build + (microarch_level * 100) | int }}
   microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level 
@@ -18,11 +18,11 @@ package:
 
 source:
   url: https://github.com/znasipak/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 74d099b2ce3875eeff8831efda1535fdfa677dfb9c0ec5cd62231cda1bd9781b
+  sha256: 2f8b42d1acf00d2fe2e0330bab8f63f05e7cc4b24eece83e378148e2b79074a4
 
 build:
   number: ${{ build_with_microarch }}
-  skip: match(python, "<3.9")
+  skip: match(python, "<3.10")
   script:
     - if: unix
       then: export CMAKE_GENERATOR=Ninja
@@ -74,14 +74,14 @@ tests:
             - multispline/tests/test_cubic.py
             - multispline/tests/test_bicubic.py
             - multispline/tests/test_tricubic.py
+            - multispline/tests/test_quadcubic.py
         requirements:
           run:
             - pip
+            - pytest
         script:
           - python -c "import importlib.metadata; assert importlib.metadata.version('multispline') == '${{ version }}'"
-          - python -m unittest multispline/tests/test_cubic.py
-          - python -m unittest multispline/tests/test_bicubic.py
-          - python -m unittest multispline/tests/test_tricubic.py
+          - python -m pytest -v multispline/tests/test_cubic.py multispline/tests/test_bicubic.py multispline/tests/test_tricubic.py multispline/tests/test_quadcubic.py
 
 
 about:
