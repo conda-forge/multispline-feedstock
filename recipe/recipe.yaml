@@ -3,14 +3,10 @@ schema_version: 1
 context:
   name: multispline
   version: 0.8.5
-  build: 6
+  build: 7
   microarch_level: ${{ 1 if microarch_level is undefined else microarch_level | int }}
   build_with_microarch: ${{ build + (microarch_level * 100) | int }}
-  microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level 
-                    if (microarch_level | int) > 1
-                    else "-Ccmake.define.MULTISPLINE_MARCH=x86-64")
-                        if (unix and x86_64) 
-                        else ""}}
+  microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level if (microarch_level | int) > 1 else "-Ccmake.define.MULTISPLINE_MARCH=x86-64") if (unix and x86_64) else ""}}
 
 package:
   name: ${{ name|lower }}
