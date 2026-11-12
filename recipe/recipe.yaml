@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: multispline
-  version: 0.9.0
+  version: 0.9.1
   build: 0
   microarch_level: ${{ 1 if microarch_level is undefined else microarch_level | int }}
   build_with_microarch: ${{ build + (microarch_level * 100) | int }}
@@ -18,7 +18,7 @@ package:
 
 source:
   url: https://github.com/znasipak/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 2f8b42d1acf00d2fe2e0330bab8f63f05e7cc4b24eece83e378148e2b79074a4
+  sha256: 3a6bcf91b0befa5a1d8bdc2e46c59fa8096813244aa598f75e0338813299498e
 
 build:
   number: ${{ build_with_microarch }}
