@@ -2,15 +2,11 @@ schema_version: 1
 
 context:
   name: multispline
-  version: 0.8.5
-  build: 6
+  version: "0.9.0"
+  build: 0
   microarch_level: ${{ 1 if microarch_level is undefined else microarch_level | int }}
   build_with_microarch: ${{ build + (microarch_level * 100) | int }}
-  microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level 
-                    if (microarch_level | int) > 1
-                    else "-Ccmake.define.MULTISPLINE_MARCH=x86-64")
-                        if (unix and x86_64) 
-                        else ""}}
+  microarch_option: ${{ ("-Ccmake.define.MULTISPLINE_MARCH=x86-64-v" ~ microarch_level if (microarch_level | int) > 1 else "-Ccmake.define.MULTISPLINE_MARCH=x86-64") if (unix and x86_64) else ""}}
 
 package:
   name: ${{ name|lower }}
@@ -18,7 +14,7 @@ package:
 
 source:
   url: https://github.com/znasipak/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 74d099b2ce3875eeff8831efda1535fdfa677dfb9c0ec5cd62231cda1bd9781b
+  sha256: 2f8b42d1acf00d2fe2e0330bab8f63f05e7cc4b24eece83e378148e2b79074a4
 
 build:
   number: ${{ build_with_microarch }}
